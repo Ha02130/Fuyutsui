@@ -101,8 +101,8 @@ function fu.spellActivationOverlayShow(spellID)
     if not fu.blocks or not fu.blocks.auras then return end
     if spellID == 223819 and fu.blocks.auras[223819] then
         fu.blocks.auras[223819].expirationTime = GetTime() + fu.blocks.auras[223819].duration
-    elseif spellID == 54149 and fu.blocks.auras.infusionOfLight then
-        fu.blocks.auras.infusionOfLight.expirationTime = GetTime() + fu.blocks.auras.infusionOfLight.duration
+    elseif spellID == 54149 and fu.blocks.auras[54149] then
+        fu.blocks.auras[54149].expirationTime = GetTime() + fu.blocks.auras[54149].duration
     end
 end
 
@@ -111,8 +111,8 @@ function fu.spellActivationOverlayHide(spellID)
     if not fu.blocks or not fu.blocks.auras then return end
     if spellID == 223819 and fu.blocks.auras[223819] then
         fu.blocks.auras[223819].expirationTime = nil
-    elseif spellID == 54149 and fu.blocks.auras.infusionOfLight then
-        fu.blocks.auras.infusionOfLight.expirationTime = nil
+    elseif spellID == 54149 and fu.blocks.auras[54149] then
+        fu.blocks.auras[54149].expirationTime = nil
     end
 end
 
