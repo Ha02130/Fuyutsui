@@ -105,6 +105,26 @@ fu.bossID = {
     [1701] = 79, -- 高阶贤者维里克斯
 }
 
+fu.castingSpellList= {
+    [384255] = 1, -- 切换天赋
+    -- 牧师
+    [585] = 2, -- 惩击
+    [32375] = 3, -- 群体驱散
+    [2061] = 4, -- 快速治疗
+    [8092] = 5, -- 心灵震爆
+    [194509] = 6, -- 真言术：耀
+    [421453] = 7, -- 终极苦修
+    [212036] = 8, -- 群体复活
+    [47540] = 9, -- 苦修
+    [64863] = 10, -- 神圣赞美诗
+    [596] = 11, -- 治疗祷言
+    [14914] = 12, -- 神圣之火
+    [34914] = 13, -- 心灵尖啸
+    [15407] = 14, -- 精神鞭笞
+    [228260] = 15, -- 虚空形态
+
+}
+
 function fu.creatColorCurve(point, b)
     local curve = C_CurveUtil.CreateColorCurve()
     curve:SetType(Enum.LuaCurveType.Linear)
@@ -174,7 +194,7 @@ fu.healerBuffs = {
     -- Holy Priest
     139,         -- 恢复
     41635,       -- 愈合祷言
-    77489,       -- 圣言术：静
+    77489,       -- 圣光回响
     -- Mistweaver Monk
     115175,      -- Soothing Mist
     119611,      -- Renewing Mist
