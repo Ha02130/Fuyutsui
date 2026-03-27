@@ -149,8 +149,8 @@ end
 local function updatePlayerCasting()
     local name, _, _, startTimeMs, endTimeMs, _, _, _, castingSpellID = UnitCastingInfo("player")
     if blocks and blocks.castingSpell then
-        if castingSpellID and blocks.spell_cd and blocks.spell_cd[castingSpellID] then
-            creat(blocks.castingSpell, blocks.spell_cd[castingSpellID].index / 255)
+        if castingSpellID and fu.castingSpellList[castingSpellID] then
+            creat(blocks.castingSpell, fu.castingSpellList[castingSpellID] / 255)
         else
             creat(blocks.castingSpell, 0)
         end
@@ -196,15 +196,6 @@ local function updateRune()
 end
 
 -- 更新boss战ID
-local function updateEncounterID(encounterID)
-    if blocks and blocks.encounterID then
-        local bossID = fu.bossID and fu.bossID[encounterID] or 0
-        if bossID then
-            creat(blocks.encounterID, bossID / 255)
-        end
-    end
-end
-
 --[[更新难度ID
 1 = "5人本普通", -- Normal (Dungeon)
 2 = "5人本英雄", -- Heroic (Dungeon)
@@ -213,11 +204,20 @@ end
 16 = "团本史诗", -- Mythic (Raid)
 17 = "团本随机", -- Looking (Raid)
 23 = "5人本史诗", -- Mythic (Dungeon)]]
-local function updateDifficultyID(difficultyID)
-    if blocks and blocks.difficultyID then
-        creat(blocks.difficultyID, difficultyID / 255)
+local function updateEncounterID(encounterID, difficultyID)
+    if blocks then
+        if blocks.encounterID then
+            local id = fu.bossID and fu.bossID[encounterID] or 0
+            if id then
+                creat(blocks.encounterID, id / 255)
+            end
+        end
+        if blocks.difficultyID then
+            creat(blocks.difficultyID, difficultyID / 255)
+        end
     end
 end
+
 
 -- 更新玩家[一键辅助]
 local function updatePlayerAssistant()
@@ -661,8 +661,6 @@ frame:RegisterEvent("PLAYER_REGEN_ENABLED") -- 离开战斗
 function frame:PLAYER_REGEN_DISABLED()
     updateTargetCanAttack()
     updatePlayerCombat()
-    updateEncounterID(0)
-    updateDifficultyID(0)
 end
 
 frame:RegisterEvent("PLAYER_REGEN_DISABLED") -- 进入战斗
@@ -934,16 +932,12 @@ end
 
 frame:RegisterEvent("ENCOUNTER_START")
 function frame:ENCOUNTER_START(encounterID, encounterName, difficultyID, groupSize)
-    print(encounterID, encounterName, difficultyID, groupSize)
-    updateEncounterID(encounterID)
-    updateDifficultyID(difficultyID)
+    updateEncounterID(encounterID, difficultyID)
 end
 
 frame:RegisterEvent("ENCOUNTER_END")
 function frame:ENCOUNTER_END(encounterID, encounterName, difficultyID, groupSize, success)
-    print(encounterID, encounterName, difficultyID, groupSize, success)
-    updateEncounterID(0)
-    updateDifficultyID(0)
+    updateEncounterID(0, 0)
 end
 
 frame:RegisterEvent("UNIT_AURA")
