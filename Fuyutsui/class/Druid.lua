@@ -24,7 +24,7 @@ function fu.updateSpecInfo()
         fu.blocks = {
             ["目标生命值"] = 21,
             ["敌人人数"] = 22,
-            stance = 23,
+            ["姿态"] = 23,
             auras = {
                 ["塞纳留斯的梦境"] = {
                     index = 24,
@@ -63,17 +63,18 @@ function fu.updateSpecInfo()
     elseif specIndex == 4 then
         fu.powerType = "MANA"
         fu.blocks = {
-            stance = 21,
-            target_maxRange = 22,
-            comboPoints = 23,
+            ["姿态"] = 21,
+            ["目标距离"] = 22,
+            ["连击点"] = 23,
+            ["施法技能"] = 24,
             auras = {
                 ["节能施法"] = {
-                    index = 24,
+                    index = 29,
                     auraRef = fu.auras["节能施法"],
                     showKey = "remaining",
                 },
                 ["丛林之魂"] = {
-                    index = 25,
+                    index = 30,
                     auraRef = fu.auras["丛林之魂"],
                     showKey = "remaining",
                 },
