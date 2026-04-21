@@ -45,17 +45,6 @@ def _get_failed_spell(state_dict):
         return spell_name
     return None
 
-# 特殊技能按键（不走keymap，直接按指定键）
-direct_key_map = {
-    "制裁之锤": "x",
-}
-
-def get_action_hotkey(skill_name, unit=0):
-    """获取技能按键，特殊技能直接返回固定按键"""
-    if skill_name in direct_key_map:
-        return direct_key_map[skill_name]
-    return get_hotkey(unit, skill_name)
-
 def run_paladin_logic(state_dict, spec_name):
     spells = state_dict.get("spells") or {}
 
@@ -260,8 +249,7 @@ def run_paladin_logic(state_dict, spec_name):
                 action_hotkey = get_hotkey(0, "正义盾击")
             elif 复仇者之盾CD == 0:
                 current_step = "施放 复仇者之盾"
-                #action_hotkey = get_hotkey(0, "复仇者之盾")    
-                action_hotkey = "1"    
+                action_hotkey = get_hotkey(0, "复仇者之盾")    
             elif 审判CD == 0:
                 current_step = "施放 审判"
                 action_hotkey = get_hotkey(0, "审判")
