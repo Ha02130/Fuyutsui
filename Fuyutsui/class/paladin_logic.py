@@ -114,10 +114,11 @@ def run_paladin_logic(state_dict, spec_name):
     正义之锤CD = spells.get("正义之锤", -1)
     复仇者之盾CD = spells.get("复仇者之盾", -1)
 
-    # ==================== 惩戒专精变量 ====================
-    # --- BUFF ---
+# ==================== 惩戒专精变量 ====================
+# --- BUFF ---
     处决宣判BUFF = state_dict.get("处决宣判", 0)
-    # --- CD ---
+# --- CD ---
+    清毒术CD = spells.get("清毒术", -1)
     处决宣判CD = spells.get("处决宣判", -1)
     灰烬觉醒CD = spells.get("灰烬觉醒", -1)
     公正之剑CD = spells.get("公正之剑", -1)
@@ -265,6 +266,9 @@ def run_paladin_logic(state_dict, spec_name):
 
     elif spec_name == "惩戒":
         最低单位, 最低生命值 = get_lowest_health_unit(state_dict, 100)
+        玩家数据 = (state_dict.get("group") or {}).get("1") or {}
+        玩家驱散 = 玩家数据.get("驱散")
+        玩家有驱散 = 玩家驱散 is not None and int(玩家驱散) in (3, 4)
         if 法术失败 != 0 and 失败法术 is not None:
             current_step = f"施放 {失败法术}"
             action_hotkey = get_action_hotkey(失败法术)
@@ -272,6 +276,9 @@ def run_paladin_logic(state_dict, spec_name):
             if 圣疗术CD == 0 and 生命值 < 20:
                 current_step = "施放 圣疗术"
                 action_hotkey = get_hotkey(1, "圣疗术")
+            elif 清毒术CD == 0 and 玩家有驱散:
+                current_step = "施放 清毒术"
+                action_hotkey = get_hotkey(1, "清毒术")
             elif 生命值 < 30 and (神圣能量 >= 3 or 神圣意志BUFF > 0):
                 current_step = "施放 荣耀圣令"
                 action_hotkey = get_hotkey(0, "荣耀圣令")
@@ -305,11 +312,6 @@ def run_paladin_logic(state_dict, spec_name):
             elif 神圣能量 <=4 and 公正之剑CD ==0:
                 current_step = "施放 公正之剑"
                 action_hotkey = get_hotkey(0, "公正之剑")
-            
-        
-
-            
-            
             else:
                 current_step = "战斗中-无匹配技能"
 

@@ -191,12 +191,22 @@ function fu.updateSpecInfo()
         fu.spellCooldown[343527] = { index = 43, name = "处决宣判" }
         fu.spellCooldown[255937] = { index = 44, name = "灰烬觉醒" }
         fu.spellCooldown[31884] = { index = 45, name = "复仇之怒" }
+
+        fu.group_blocks = {
+            unit_start = 70,
+            block_num = 3,
+            healthPercent = 1,
+            role = 2,
+            dispel = 3,
+        }
     end
 end
 
 -- 创建圣骑士宏
 function fu.CreateClassMacro()
-    local dynamicSpells = { "神圣震击", "圣光闪现", "圣光术", "荣耀圣令", "清洁术", "圣疗术" }
+    local specIndex = C_SpecializationInfo.GetSpecialization()
+    local dispelSpell = (specIndex == 1) and "清洁术" or "清毒术"
+    local dynamicSpells = { "神圣震击", "圣光闪现", "圣光术", "荣耀圣令", dispelSpell, "圣疗术" }
     local specialSpells = {}
     local staticSpells = {
         [1] = "牺牲祝福",

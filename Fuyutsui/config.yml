@@ -435,6 +435,18 @@ state:
     圣光之锤:
       step: 27
       type: "int"
+    group:
+      start: 70
+      num: 3
+      生命值:
+        step: 1
+        type: "int"
+      职责:
+        step: 2
+        type: "int"
+      驱散:
+        step: 3
+        type: "int"
 
     spells:
       盲目之光:
