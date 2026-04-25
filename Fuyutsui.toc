@@ -30,6 +30,7 @@ core/macro.lua
 core/keybinds.lua
 class/Warrior.lua
 class/Paladin.lua
+class/Rogue.lua
 class/Hunter.lua
 class/Priest.lua
 class/DeathKnight.lua

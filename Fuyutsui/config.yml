@@ -232,11 +232,77 @@ state:
 4: # 盗贼
   keymap: "rogue.yml"
   1:
-    目标生命值: {step: 21, type: "int" }
-    敌人人数: {step: 22, type: "int" }
     spells:
-      刺骨: {step: 31, type: "int" }
+      毒刃: {step: 31, type: "int" }
+      致盲: {step: 32, type: "int" }
+      佯攻: {step: 33, type: "int" }
+      消失: {step: 34, type: "int" }
+      偷袭: {step: 35, type: "int" }
+      潜伏帷幕: {step: 36, type: "int" }
+      菊花茶: {step: 37, type: "int" }
+      闪避: {step: 38, type: "int" }
+      猩红之瓶: {step: 39, type: "int" }
+      扰乱: {step: 40, type: "int" }
+      疾跑: {step: 41, type: "int" }
+      凿击: {step: 42, type: "int" }
+      肾击: {step: 43, type: "int" }
+      暗影斗篷: {step: 44, type: "int" }
+      脚踢: {step: 45, type: "int" }
 
+      死亡印记: {step: 46, type: "int" }
+      死亡印记2: {step: 47, type: "int" }
+      锁喉: {step: 48, type: "int" }
+      君王之灾: {step: 49, type: "int" }
+      暗影步: {step: 50, type: "int" }
+      
+  2:
+    spells:
+      毒刃: {step: 31, type: "int" }
+      致盲: {step: 32, type: "int" }
+      佯攻: {step: 33, type: "int" }
+      消失: {step: 34, type: "int" }
+      偷袭: {step: 35, type: "int" }
+      潜伏帷幕: {step: 36, type: "int" }
+      菊花茶: {step: 37, type: "int" }
+      闪避: {step: 38, type: "int" }
+      猩红之瓶: {step: 39, type: "int" }
+      扰乱: {step: 40, type: "int" }
+      疾跑: {step: 41, type: "int" }
+      凿击: {step: 42, type: "int" }
+      肾击: {step: 43, type: "int" }
+      暗影斗篷: {step: 44, type: "int" }
+      脚踢: {step: 45, type: "int" }
+
+      冲动: {step: 46, type: "int" }
+      影舞步: {step: 47, type: "int" }
+      刀锋冲刺: {step: 48, type: "int" }
+      正中眉心: {step: 49, type: "int" }
+      剑刃乱舞: {step: 50, type: "int" }
+      抓钩: {step: 51, type: "int" }
+      抓钩充能: {step: 52, type: "int" }
+      命运骨骰: {step: 53, type: "int" }
+  3:
+    spells:
+      毒刃: {step: 31, type: "int" }
+      致盲: {step: 32, type: "int" }
+      佯攻: {step: 33, type: "int" }
+      消失: {step: 34, type: "int" }
+      偷袭: {step: 35, type: "int" }
+      潜伏帷幕: {step: 36, type: "int" }
+      菊花茶: {step: 37, type: "int" }
+      闪避: {step: 38, type: "int" }
+      猩红之瓶: {step: 39, type: "int" }
+      扰乱: {step: 40, type: "int" }
+      疾跑: {step: 41, type: "int" }
+      凿击: {step: 42, type: "int" }
+      肾击: {step: 43, type: "int" }
+      暗影斗篷: {step: 44, type: "int" }
+      脚踢: {step: 45, type: "int" }
+      暗影步: {step: 46, type: "int" }
+      影分身: {step: 47, type: "int" }
+      暗影之刃: {step: 48, type: "int" }
+      暗影之舞: {step: 49, type: "int" }
+      暗影之舞充能: {step: 50, type: "int" }
 
 5: # 牧师
   keymap: "priest.yml"
@@ -519,7 +585,7 @@ state:
     小鬼数量: {step: bar, bar: 1, type: "int"}
     灵魂碎片: {step: 23, type: "int" }
     施法技能: {step: 24, type: "int" }
-    法术封锁: {step: 25, type: "int" }
+    吞噬魔法: {step: 25, type: "int" }
 
     spells:
       恐惧: {step: 31, type: "int" }
@@ -538,7 +604,7 @@ state:
       魔典：小鬼领主: {step: 44, type: "int" }
       虚弱灾厄: {step: 45, type: "int" }
       语言灾厄: {step: 46, type: "int" }
-      法术封锁: {step: 47, type: "int" }
+      吞噬魔法: {step: 47, type: "int" }
 
 10: # 武僧
   keymap: "monk.yml"

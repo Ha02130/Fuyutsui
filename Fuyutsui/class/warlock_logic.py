@@ -62,7 +62,7 @@ def run_warlock_logic(state_dict, spec_name):
         小鬼数量 = state_dict.get("小鬼数量", 0)
         灵魂碎片 = state_dict.get("灵魂碎片", 0)
         施法技能 = state_dict.get("施法技能", 0)
-        法术封锁 = state_dict.get("法术封锁", 0)
+        吞噬魔法 = state_dict.get("吞噬魔法", 0)
 
         魔典邪能破坏者 = spells.get("魔典：邪能破坏者", -1)
         内爆 = spells.get("内爆", -1)
@@ -74,7 +74,7 @@ def run_warlock_logic(state_dict, spec_name):
             current_step = f"施放 {失败法术}"
             action_hotkey = get_hotkey(0, 失败法术)
         elif 战斗 and 1 <= 目标类型 <= 3:
-            if 魔典邪能破坏者 == 0 and 法术封锁 == 1:
+            if 魔典邪能破坏者 == 0 and 吞噬魔法 == 1:
                 current_step = "施放 魔典：邪能破坏者"
                 action_hotkey = get_hotkey(0, "魔典：邪能破坏者")
             elif 小鬼数量 >= 6 and 内爆 == 0:

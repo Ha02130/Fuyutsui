@@ -89,13 +89,15 @@ local function Fuyutsui_SlashHandler(msg)
     else
         -- 默认显示的帮助信息
         print("|cff00ff00Fuyutsui|r 命令列表:")
-        print("/fu cd                   - 冷却检查")
-        print("/fu aoemode              - 切换模式")
-        print("/fu aoemode auto         - 自动模式 (根据插件推荐)")
-        print("/fu aoemode single       - 单体模式 (强制单体)")
-        print("/fu dpsmode              - 输出模式切换")
-        print("/fu dpsmode manual       - 手动编写逻辑")
-        print("/fu dpsmode assistant    - 官方一键辅助")
+        print("爆发开关: /fu cd")
+        print("|cff00ff00开启|r爆发: /fu cd on")
+        print("|cffff0000关闭|r爆发: /fu cd off")
+        print("切换AOE模式: /fu aoemode              ")
+        print("切换AOE为|cff00ff00自动|r: /fu aoemode auto")
+        print("切换AOE为|cff00ff00单体|r: /fu aoemode single")
+        print("切换输出模式: /fu dpsmode")
+        print("切换输出模式为|cff00ff00手写逻辑|r: /fu dpsmode manual")
+        print("切换输出模式为|cff00ff00一键辅助|r: /fu dpsmode assistant")
     end
 end
 
