@@ -4,6 +4,7 @@
 from utils import *
 
 action_map = {
+    4: ("亡者大军", "亡者大军"),
     5: ("心脏打击", "心脏打击"),
     6: ("枯萎凋零", "枯萎凋零"),
     7: ("死神的抚摸", "死神的抚摸"),
@@ -13,7 +14,6 @@ action_map = {
     11: ("血液沸腾", "血液沸腾"),
     12: ("吸血鬼打击", "心脏打击"),
     13: ("亡者复生", "亡者复生"),
-    4: ("亡者大军", "亡者大军"),
     14: ("凋零缠绕", "凋零缠绕"),
     15: ("天灾打击", "天灾打击"),
     16: ("扩散", "扩散"),
@@ -38,6 +38,8 @@ action_map = {
     37: ("冰霜巨龙之怒", "冰霜巨龙之怒"),
     38: ("冰霜灾祸", "冰霜打击"),
     40: ("吞噬", "吞噬"),
+    41: ("灾殃坟茔", "扩散"),
+    42: ("死灵缠绕", "凋零缠绕"),
 }
 
 failed_spell_map = {
@@ -156,8 +158,7 @@ def run_deathknight_logic(state_dict, spec_name):
                 current_step = f"施放 {tup[0]}"
                 action_hotkey = get_hotkey(0, tup[1])
                 # 手写逻辑
-            elif 输出模式 == 1:
-                
+            elif 输出模式 == 1:                
                 if 一键辅助 == 6:
                     current_step = "施放 爆发"
                     action_hotkey = get_hotkey(0, "爆发")
@@ -173,8 +174,8 @@ def run_deathknight_logic(state_dict, spec_name):
                 elif 灵魂收割 == 0 and (目标生命值 < 35 or 割魂索命 > 0):
                     current_step = "施放 灵魂收割"
                     action_hotkey = get_hotkey(0, "灵魂收割")
-                    # 只有在施放黑暗突变时, 施放腐化
-                elif 腐化 == 0 and 目标生命值 > 35 and 黑暗突变 > 30 and 食尸鬼层数 < 8:
+                    # 只有在"施放黑暗突变时" 和 没有 "割魂索命" 时, 施放腐化
+                elif 腐化 == 0 and 割魂索命 == 0 and 目标生命值 > 35 and 黑暗突变 > 30 and 食尸鬼层数 < 8:
                     current_step = "施放 腐化"
                     action_hotkey = get_hotkey(0, "腐化")
                     # 保持脓疮毒镰buff
