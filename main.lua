@@ -502,8 +502,6 @@ local function updateAuraBySpellOverride(baseSpellID, overrideSpellID)
     end
 end
 
-
-
 ---@param spellId number 光环ID, 屏幕提示
 -- 通过事件"SPELL_ACTIVATION_OVERLAY_SHOW"更新光环, 并更新光环的结束时间
 local function updateAuraByActivationOverlayShow(spellId)

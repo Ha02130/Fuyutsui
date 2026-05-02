@@ -1,8 +1,9 @@
 local addon, fu = ...
-local Fuyutsui = _G[addon]
 local classId = fu.classId
 local addAuras, updateAuras, removeAuras = {}, {}, {} -- 添加、更新、移除光环
-Fuyutsui.Auras = {}
+local creat = fu.updateOrCreatTextureByIndex
+
+fu.Auras = {}
 local e = {
     ["法术冷却"] = "SPELL_UPDATE_COOLDOWN", -- 冷却事件
     ["施法成功"] = "UNIT_SPELLCAST_SUCCEEDED", -- 成功事件
@@ -23,7 +24,7 @@ local auras = {
             duration = 8,
             expirationTime = nil,
             addAuras = {
-                [132404] = { event = e["冷却事件"] },
+                [132404] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -36,8 +37,8 @@ local auras = {
             duration = 12,
             expirationTime = nil,
             addAuras = {
-                [223819] = { event = e["冷却事件"] },
-                [408458] = { event = e["冷却事件"] },
+                [223819] = { event = e["法术冷却"] },
+                [408458] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -53,7 +54,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [54149] = { event = e["冷却事件"], step = 2 },
+                [54149] = { event = e["法术冷却"], step = 2 },
             },
             updateAuras = {
                 [19750] = { event = e["施法成功"], step = -1 }, -- 圣光闪现
@@ -71,7 +72,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [414273] = { event = e["冷却事件"], step = 2 },
+                [414273] = { event = e["法术冷却"], step = 2 },
             },
             updateAuras = {
                 [82326] = { event = e["施法成功"], step = -1 }, -- 圣光术
@@ -83,7 +84,7 @@ local auras = {
             duration = 20,
             expirationTime = nil,
             addAuras = {
-                [432496] = { event = e["冷却事件"] },
+                [432496] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -93,7 +94,7 @@ local auras = {
             duration = 20,
             expirationTime = nil,
             addAuras = {
-                [432502] = { event = e["冷却事件"] },
+                [432502] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -106,7 +107,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [327510] = { event = e["冷却事件"], step = 1 },
+                [327510] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [85673] = { event = e["施法成功"], step = -1 }, -- 荣耀圣令
@@ -118,7 +119,7 @@ local auras = {
             duration = 12,
             expirationTime = nil,
             addAuras = {
-                [188370] = { event = e["冷却事件"] },
+                [188370] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -128,7 +129,7 @@ local auras = {
             duration = 15,
             expirationTime = nil,
             addAuras = {
-                [188370] = { event = e["冷却事件"] },
+                [188370] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -138,7 +139,7 @@ local auras = {
             duration = 10,
             expirationTime = nil,
             addAuras = {
-                [343527] = { event = e["冷却事件"] },
+                [343527] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -148,8 +149,8 @@ local auras = {
             duration = 20,
             expirationTime = nil,
             addAuras = {
-                [1246643] = { event = e["冷却事件"] },
-                [427441] = { event = e["冷却事件"] },
+                [1246643] = { event = e["法术冷却"] },
+                [427441] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -170,7 +171,7 @@ local auras = {
             duration = 60,
             expirationTime = nil,
             addAuras = {
-                [1253591] = { event = e["冷却事件"] },
+                [1253591] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -185,11 +186,12 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [114255] = { event = e["冷却事件"], step = 1 },
+                [114255] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [2061] = { event = e["施法成功"], step = -1 }, -- 快速治疗
                 [596] = { event = e["施法成功"], step = -1 }, -- 治疗祷言
+                [186263] = { event = e["施法成功"], step = -1 }, -- 暗影愈合
             },
             removeAuras = nil,
         },
@@ -204,12 +206,12 @@ local auras = {
                 },
             },
             updateAuras = nil,
-            removeAuras = { {
+            removeAuras = {
                 [585] = {
                     event = e["图标改变"],
                     overrideSpellID = 450215
                 },
-            }, },
+            },
         },
         ["暗影愈合"] = {
             remaining = 0,
@@ -219,7 +221,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [1252217] = { event = e["冷却事件"], step = 1 },
+                [1252217] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [186263] = { event = e["施法成功"], step = -1 },
@@ -234,7 +236,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [472433] = { { event = e["冷却事件"], step = 2 } },
+                [472433] = { event = e["法术冷却"], step = 2 },
             },
             updateAuras = {
                 [194509] = { event = e["施法成功"], step = -1 }, -- 真言术：耀
@@ -249,7 +251,7 @@ local auras = {
             countMax = 4,
             expirationTime = nil,
             addAuras = {
-                [390993] = { event = e["冷却事件"], step = 1 },
+                [390993] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [596] = { event = e["施法成功"], step = -1 }
@@ -261,7 +263,7 @@ local auras = {
             duration = 32,
             expirationTime = nil,
             addAuras = {
-                [1262766] = { event = e["冷却事件"] },
+                [1262766] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -281,7 +283,7 @@ local auras = {
             duration = 15,
             expirationTime = nil,
             addAuras = {
-                [458123] = { event = e["冷却事件"] }
+                [458123] = { event = e["法术冷却"] }
             },
             updateAuras = nil,
             removeAuras = {
@@ -295,7 +297,7 @@ local auras = {
             duration = 25,
             expirationTime = nil,
             addAuras = {
-                [1241077] = { event = e["冷却事件"] },
+                [1241077] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -307,7 +309,7 @@ local auras = {
             duration = 30,
             expirationTime = nil,
             addAuras = {
-                [1242654] = { event = e["冷却事件"] },
+                [1242654] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -319,7 +321,7 @@ local auras = {
             duration = 30,
             expirationTime = nil,
             addAuras = {
-                [1254252] = { event = e["冷却事件"] },
+                [1254252] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -332,7 +334,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [81340] = { event = e["冷却事件"], step = 1 },
+                [81340] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [47541] = { event = e["施法成功"], step = -1 }, -- 凋零缠绕
@@ -345,7 +347,7 @@ local auras = {
             duration = 20,
             expirationTime = nil,
             addAuras = {
-                [101568] = { event = e["冷却事件"] },
+                [101568] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -357,7 +359,7 @@ local auras = {
             duration = 30,
             expirationTime = nil,
             addAuras = {
-                [1242223] = { event = e["冷却事件"] },
+                [1242223] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -367,7 +369,7 @@ local auras = {
             duration = 10,
             expirationTime = nil,
             addAuras = {
-                [188290] = { event = e["冷却事件"] },
+                [188290] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -382,7 +384,7 @@ local auras = {
             duration = 25,
             expirationTime = nil,
             addAuras = {
-                [453406] = { event = e["冷却事件"] },
+                [453406] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -397,7 +399,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [53390] = { event = e["冷却事件"], step = 1 },
+                [53390] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = nil,
             removeAuras = {
@@ -412,7 +414,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [1267089] = { event = e["冷却事件"], step = 1 },
+                [1267089] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [1267068] = { event = e["施法成功"], step = -1 },
@@ -434,7 +436,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [73685] = { event = e["冷却事件"], step = 2 },
+                [73685] = { event = e["法术冷却"], step = 2 },
             },
             updateAuras = {
                 [61295] = { event = e["施法成功"], step = -1 }, -- 激流
@@ -450,7 +452,7 @@ local auras = {
             duration = 6,
             expirationTime = nil,
             addAuras = {
-                [114052] = { event = e["冷却事件"] },
+                [114052] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -463,7 +465,7 @@ local auras = {
             duration = 12,
             expirationTime = nil,
             addAuras = {
-                [1247730] = { event = e["冷却事件"] },
+                [1247730] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -475,7 +477,7 @@ local auras = {
             duration = 20,
             expirationTime = nil,
             addAuras = {
-                [190446] = { event = e["冷却事件"] },
+                [190446] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -487,7 +489,7 @@ local auras = {
             duration = 12,
             expirationTime = nil,
             addAuras = {
-                [270232] = { event = e["冷却事件"] },
+                [270232] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -500,7 +502,7 @@ local auras = {
             countMax = 2,
             expirationTime = nil,
             addAuras = {
-                [44544] = { event = e["冷却事件"], step = 1 },
+                [44544] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [30455] = { event = e["施法成功"], step = -1 }, -- 冰枪术
@@ -535,7 +537,7 @@ local auras = {
             duration = 120,
             expirationTime = nil,
             addAuras = {
-                [132409] = { event = e["冷却事件"] },
+                [132409] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -545,7 +547,7 @@ local auras = {
             duration = 120,
             expirationTime = nil,
             addAuras = {
-                [1276610] = { event = e["冷却事件"] },
+                [1276610] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -558,7 +560,7 @@ local auras = {
             duration = 30,
             expirationTime = nil,
             addAuras = {
-                [224863] = { event = e["冷却事件"] },
+                [224863] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -570,7 +572,7 @@ local auras = {
             duration = 20,
             expirationTime = nil,
             addAuras = {
-                [392883] = { event = e["冷却事件"] },
+                [392883] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -582,7 +584,7 @@ local auras = {
             duration = 20,
             expirationTime = nil,
             addAuras = {
-                [1262768] = { event = e["冷却事件"] },
+                [1262768] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -594,7 +596,7 @@ local auras = {
             duration = 15,
             expirationTime = nil,
             addAuras = {
-                [197919] = { event = e["冷却事件"] },
+                [197919] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -609,7 +611,7 @@ local auras = {
             duration = 15,
             expirationTime = nil,
             addAuras = {
-                [197916] = { event = e["冷却事件"] },
+                [197916] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -625,7 +627,7 @@ local auras = {
             countMax = 10,
             expirationTime = nil,
             addAuras = {
-                [399496] = { event = e["冷却事件"], step = 1 },
+                [399496] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = nil,
             removeAuras = {
@@ -637,7 +639,7 @@ local auras = {
             duration = 30,
             expirationTime = nil,
             addAuras = {
-                [1260565] = { event = e["冷却事件"] },
+                [1260565] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -647,7 +649,7 @@ local auras = {
             duration = 30,
             expirationTime = nil,
             addAuras = {
-                [443112] = { event = e["冷却事件"] },
+                [443112] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -659,7 +661,7 @@ local auras = {
             duration = 4,
             expirationTime = nil,
             addAuras = {
-                [443421] = { event = e["冷却事件"], duration = 4, },
+                [443421] = { event = e["法术冷却"], duration = 4, },
                 [116680] = { event = e["施法成功"], duration = 8 }, -- 氤氲之雾
             },
             updateAuras = nil,
@@ -676,7 +678,7 @@ local auras = {
             countMax = 4,
             expirationTime = nil,
             addAuras = {
-                [372152] = { event = e["冷却事件"], step = 1 },
+                [372152] = { event = e["法术冷却"], step = 1 },
             },
             updateAuras = {
                 [8936] = { event = e["施法成功"], step = -1 }, -- 愈合
@@ -691,7 +693,7 @@ local auras = {
             duration = 7,
             expirationTime = nil,
             addAuras = {
-                [192081] = { event = e["冷却事件"] },
+                [192081] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -701,7 +703,7 @@ local auras = {
             duration = 4,
             expirationTime = nil,
             addAuras = {
-                [22842] = { event = e["冷却事件"] },
+                [22842] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = nil,
@@ -711,7 +713,7 @@ local auras = {
             duration = 15,
             expirationTime = nil,
             addAuras = {
-                [16870] = { event = e["冷却事件"] },
+                [16870] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -723,7 +725,7 @@ local auras = {
             duration = 15,
             expirationTime = nil,
             addAuras = {
-                [114108] = { event = e["冷却事件"] },
+                [114108] = { event = e["法术冷却"] },
             },
             updateAuras = nil,
             removeAuras = {
@@ -743,20 +745,25 @@ local auras = {
 }
 
 do
-    Fuyutsui.Auras = auras[classId] or {}
+    fu.Auras = auras[classId] or {}
     local function indexAura(target, auraName, auraData)
         for spellId, info in pairs(auraData) do
-            if not target[info.event] then
-                target[info.event] = {}
+            local ev = info.event
+            local byEvent = target[ev]
+            if not byEvent then
+                byEvent = {}
+                target[ev] = byEvent
             end
-            if not target[info.event][spellId] then
-                target[info.event][spellId] = {}
+            local bySpell = byEvent[spellId]
+            if not bySpell then
+                bySpell = {}
+                byEvent[spellId] = bySpell
             end
-            target[info.event][spellId][auraName] = true
+            bySpell[auraName] = info
         end
     end
 
-    for name, data in pairs(Fuyutsui.Auras) do
+    for name, data in pairs(fu.Auras) do
         if data.addAuras then
             indexAura(addAuras, name, data.addAuras)
         end
@@ -769,27 +776,236 @@ do
     end
 end
 
----@param spellID number 光环ID,
--- 通过事件 "SPELL_UPDATE_COOLDOWN"获取光环,
--- 更新光环的结束时间, 并更新光环的层数
-local function updateAuraBySpellCooldown(spellID)
-    local addAura = addAuras["SPELL_UPDATE_COOLDOWN"][spellID]
-    local updateAura = updateAuras["SPELL_UPDATE_COOLDOWN"][spellID]
-    local removeAura = removeAuras["SPELL_UPDATE_COOLDOWN"][spellID]
-    if addAura then
-        for k, v in pairs(addAura) do
-            local aura = Fuyutsui.Auras[k]
-            if aura and aura.duration then
-                aura.expirationTime = GetTime() + aura.duration
+---@param auraMap table<string, table>|nil 光环名 -> info
+---@param castBarID any|nil 施法成功时传入读条 ID；冷却类调用传 nil，不按读条过滤
+local function applyAuraMapForSpellEvent(auraMap, castBarID)
+    if not auraMap then
+        return
+    end
+    local now = GetTime()
+    for auraName, info in pairs(auraMap) do
+        local aura = fu.Auras[auraName]
+        if aura and ((not info.castBar) or castBarID) then
+            if aura.duration then
+                aura.expirationTime = now + aura.duration
             end
-            if aura and aura.count and info.step then
+            if aura.count and info.step then
                 if info.step > 0 then
-                    aura.expirationTime = GetTime() + aura.duration
+                    aura.expirationTime = now + aura.duration
                     aura.count = math.min(aura.countMax, aura.count + info.step)
                 else
                     aura.count = math.max(aura.countMin, aura.count + info.step)
                 end
             end
+        end
+    end
+end
+
+---@param removeMap table<string, table>|nil 光环名 -> info
+---@param resetCount boolean|nil 为 true 时重置层数（冷却/施法成功移除）；屏幕提示类仅清时间传 false
+local function clearAurasFromRemoveMap(removeMap, resetCount)
+    if not removeMap then
+        return
+    end
+    for auraName in pairs(removeMap) do
+        local aura = fu.Auras[auraName]
+        if aura then
+            if resetCount and aura.count then
+                aura.count = aura.countMin
+            end
+            aura.expirationTime = nil
+        end
+    end
+end
+
+---@param spellID number 法术 ID（冷却事件键）
+-- 通过 SPELL_UPDATE_COOLDOWN 同步光环结束时间与层数
+local function updateAuraBySpellCooldown(spellID)
+    local ev = e["法术冷却"]
+    local addBySpell = addAuras[ev]
+    local updateBySpell = updateAuras[ev]
+    local removeBySpell = removeAuras[ev]
+    applyAuraMapForSpellEvent(addBySpell and addBySpell[spellID], nil)
+    applyAuraMapForSpellEvent(updateBySpell and updateBySpell[spellID], nil)
+    clearAurasFromRemoveMap(removeBySpell and removeBySpell[spellID], true)
+end
+
+---@param spellID number 法术ID
+---@param castBarID number 施法条ID
+-- 通过事件"UNIT_SPELLCAST_SUCCEEDED"更新光环, 并更新光环的层数
+local function updateAuraBySuccess(spellID, castBarID)
+    local ev = e["施法成功"]
+    local addBySpell = addAuras[ev]
+    local updateBySpell = updateAuras[ev]
+    local removeBySpell = removeAuras[ev]
+    applyAuraMapForSpellEvent(addBySpell and addBySpell[spellID], castBarID)
+    applyAuraMapForSpellEvent(updateBySpell and updateBySpell[spellID], castBarID)
+    clearAurasFromRemoveMap(removeBySpell and removeBySpell[spellID], true)
+end
+
+local function updateAuraByIconMap(map, spellID)
+    if not map then
+        return
+    end
+    local hasOverride = false
+    local overrideSpellID = C_Spell.GetOverrideSpell(spellID)
+    for auraName, info in pairs(map) do
+        local aura = fu.Auras[auraName]
+        if overrideSpellID and info.overrideSpellID and overrideSpellID == info.overrideSpellID then
+            hasOverride = true
+        end
+        if info.isIcon then
+            if hasOverride then
+                info.isIcon = 2
+            else
+                info.isIcon = 1
+            end
+        end
+        if aura then
+            if hasOverride and aura.duration then
+                aura.expirationTime = GetTime() + aura.duration
+            else
+                aura.expirationTime = nil
+            end
+        end
+    end
+end
+
+---@param spellID number 法术ID
+-- 通过事件"SPELL_UPDATE_ICON"更新光环, 并更新光环的层数
+local function updateAuraByIcon(spellID)
+    local ev = e["图标改变"]
+    local addBySpell = addAuras[ev]
+    local updateBySpell = updateAuras[ev]
+    local removeBySpell = removeAuras[ev]
+    if addBySpell and addBySpell[spellID] then
+        updateAuraByIconMap(addBySpell[spellID], spellID)
+    end
+    if updateBySpell and updateBySpell[spellID] then
+        updateAuraByIconMap(updateBySpell[spellID], spellID)
+    end
+    if removeBySpell and removeBySpell[spellID] then
+        updateAuraByIconMap(removeBySpell[spellID], spellID)
+    end
+end
+
+local function updateAuraByOverrideMap(map, overrideSpellID)
+    if not map then
+        return
+    end
+
+    for auraName, info in pairs(map) do
+        local aura = fu.Auras[auraName]
+        if aura then
+            if overrideSpellID and aura.duration and overrideSpellID == info.overrideSpellID then
+                if aura.duration then
+                    aura.expirationTime = GetTime() + aura.duration
+                end
+            else
+                aura.expirationTime = nil
+            end
+        end
+    end
+end
+
+---@param baseSpellID number 基本法术ID
+---@param overrideSpellID number 覆盖法术ID
+-- 通过事件"COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED"更新光环, 并更新光环的结束时间
+local function updateAuraBySpellOverride(baseSpellID, overrideSpellID)
+    local ev = e["法术覆盖"]
+    local addBySpell = addAuras[ev]
+    local updateBySpell = updateAuras[ev]
+    local removeBySpell = removeAuras[ev]
+    if addBySpell and addBySpell[baseSpellID] then
+        updateAuraByOverrideMap(addBySpell[baseSpellID], overrideSpellID)
+    end
+    if updateBySpell and updateBySpell[baseSpellID] then
+        updateAuraByOverrideMap(updateBySpell[baseSpellID], overrideSpellID)
+    end
+    if removeBySpell and removeBySpell[baseSpellID] then
+        updateAuraByOverrideMap(removeBySpell[baseSpellID], overrideSpellID)
+    end
+end
+
+---@param spellId number 光环ID, 屏幕提示
+-- 通过事件"SPELL_ACTIVATION_OVERLAY_HIDE"更新光环, 并更新光环的结束时间
+local function updateAuraByActivationOverlayShow(spellId)
+    local addBySpell = addAuras[e["屏幕提示显示"]]
+    local updateBySpell = updateAuras[e["屏幕提示显示"]]
+    applyAuraMapForSpellEvent(addBySpell and addBySpell[spellId], nil)
+    applyAuraMapForSpellEvent(updateBySpell and updateBySpell[spellId], nil)
+end
+
+---@param spellId number 光环ID, 屏幕提示
+-- 通过事件"SPELL_ACTIVATION_OVERLAY_HIDE"更新光环, 并更新光环的结束时间
+local function updateAuraByActivationOverlayHide(spellId)
+    local removeBySpell = removeAuras[e["屏幕提示隐藏"]]
+    clearAurasFromRemoveMap(removeBySpell and removeBySpell[spellId], false)
+end
+
+-- SPELL_ACTIVATION_OVERLAY_GLOW_SHOW / HIDE：与 main.lua 一致，按是否仍发光刷新或清除时间
+local function updateAuraByOverlayGlow(spellID)
+    local ev = e["图标发光隐藏"]
+    local removeBySpell = removeAuras[ev]
+    local map = removeBySpell and removeBySpell[spellID]
+    if not map then
+        return
+    end
+    local now = GetTime()
+    local isSpellOverlayed = C_SpellActivationOverlay.IsSpellOverlayed(spellID)
+    for auraName in pairs(map) do
+        local aura = fu.Auras[auraName]
+        if aura then
+            if isSpellOverlayed and aura.duration then
+                aura.expirationTime = now + aura.duration
+            else
+                aura.expirationTime = nil
+            end
+        end
+    end
+end
+
+-- 通过每帧更新光环
+local function updateAura()
+    local currentTime = GetTime()
+    for name, info in pairs(fu.Auras) do
+        local expTime = info.expirationTime
+        if expTime then
+            if info.count and info.count <= 0 then
+                expTime = nil
+            end
+            if expTime then
+                local remaining = expTime - currentTime
+                if remaining > 0 then
+                    info.remaining = remaining
+                else
+                    info.expirationTime = nil
+                    info.remaining = 0
+                    if info.count then info.count = 0 end
+                end
+            else
+                info.expirationTime = nil
+                info.remaining = 0
+                if info.count then info.count = 0 end
+            end
+        else
+            if info.remaining ~= 0 then info.remaining = 0 end
+            if info.count and info.count ~= info.countMin then info.count = info.countMin end
+        end
+    end
+end
+
+local function updateAuraBlocks()
+    if not fu.blocks or not fu.blocks.auras then return end
+    for name, info in pairs(fu.blocks.auras) do
+        local v = info.show
+        if info.auraRef and info.showKey then
+            v = info.auraRef[info.showKey]
+        end
+        if v then
+            creat(info.index, v / 255)
+        else
+            creat(info.index, 0)
         end
     end
 end
@@ -800,3 +1016,46 @@ frame:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end
 for _, v in pairs(e) do
     frame:RegisterEvent(v)
 end
+
+function frame:SPELL_UPDATE_COOLDOWN(spellID)
+    -- print(spellID, C_Spell.GetSpellName(spellID))
+    updateAuraBySpellCooldown(spellID)
+end
+
+function frame:UNIT_SPELLCAST_SUCCEEDED(unit, castGUID, spellID, castBarID)
+    updateAuraBySuccess(spellID, castBarID)
+end
+
+function frame:SPELL_UPDATE_ICON(spellId)
+    updateAuraByIcon(spellId)
+end
+
+function frame:COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED(baseSpellID, overrideSpellID)
+    updateAuraBySpellOverride(baseSpellID, overrideSpellID)
+end
+
+function frame:SPELL_ACTIVATION_OVERLAY_GLOW_SHOW(spellId)
+    updateAuraByOverlayGlow(spellId)
+end
+
+function frame:SPELL_ACTIVATION_OVERLAY_GLOW_HIDE(spellId)
+    updateAuraByOverlayGlow(spellId)
+end
+
+function frame:SPELL_ACTIVATION_OVERLAY_SHOW(spellId)
+    updateAuraByActivationOverlayShow(spellId)
+end
+
+function frame:SPELL_ACTIVATION_OVERLAY_HIDE(spellId)
+    updateAuraByActivationOverlayHide(spellId)
+end
+
+local timeElapsed = 0
+frame:SetScript("OnUpdate", function(_, elapsed)
+    timeElapsed = timeElapsed + elapsed
+    if timeElapsed > 0.2 then
+        updateAura()
+        updateAuraBlocks()
+        timeElapsed = 0
+    end
+end)
