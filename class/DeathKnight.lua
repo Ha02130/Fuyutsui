@@ -43,7 +43,7 @@ function fu.updateSpecInfo()
             auras = {
                 ["黑暗援助"] = {
                     index = 24,
-                    auraRef = fu.auras["黑暗援助"],
+                    auraRef = fu.Auras["黑暗援助"],
                     showKey = "remaining",
                 },
             }
@@ -63,47 +63,47 @@ function fu.updateSpecInfo()
             auras = {
                 ["次级食尸鬼"] = {
                     index = 27,
-                    auraRef = fu.auras["次级食尸鬼"],
+                    auraRef = fu.Auras["次级食尸鬼"],
                     showKey = "remaining",
                 },
                 ["割魂索命"] = {
                     index = 28,
-                    auraRef = fu.auras["割魂索命"],
+                    auraRef = fu.Auras["割魂索命"],
                     showKey = "remaining",
                 },
                 ["末日突降"] = {
                     index = 29,
-                    auraRef = fu.auras["末日突降"],
+                    auraRef = fu.Auras["末日突降"],
                     showKey = "remaining",
                 },
                 ["末日突降层数"] = {
                     index = 30,
-                    auraRef = fu.auras["末日突降"],
+                    auraRef = fu.Auras["末日突降"],
                     showKey = "count",
                 },
                 ["黑暗援助"] = {
                     index = 31,
-                    auraRef = fu.auras["黑暗援助"],
+                    auraRef = fu.Auras["黑暗援助"],
                     showKey = "remaining",
                 },
                 ["禁断知识"] = {
                     index = 32,
-                    auraRef = fu.auras["禁断知识"],
+                    auraRef = fu.Auras["禁断知识"],
                     showKey = "remaining",
                 },
                 ["脓疮毒镰"] = {
                     index = 33,
-                    auraRef = fu.auras["脓疮毒镰"],
+                    auraRef = fu.Auras["脓疮毒镰"],
                     showKey = "remaining",
                 },
                 ["脓疮毒镰2"] = {
                     index = 34,
-                    auraRef = fu.auras["脓疮毒镰2"],
+                    auraRef = fu.Auras["脓疮毒镰2"],
                     showKey = "remaining",
                 },
                 ["枯萎凋零"] = {
                     index = 35,
-                    auraRef = fu.auras["枯萎凋零"],
+                    auraRef = fu.Auras["枯萎凋零"],
                     showKey = "remaining",
                 },
             }

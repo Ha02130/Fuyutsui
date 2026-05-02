@@ -31,17 +31,17 @@ function fu.updateSpecInfo()
             auras = {
                 ["疗伤珠"] = {
                     index = 25,
-                    auraRef = fu.auras["疗伤珠"],
+                    auraRef = fu.Auras["疗伤珠"],
                     showKey = "count",
                 },
                 ["活力苏醒"] = {
                     index = 26,
-                    auraRef = fu.auras["活力苏醒"],
+                    auraRef = fu.Auras["活力苏醒"],
                     showKey = "remaining",
                 },
                 ["清空地窖"] = {
                     index = 27,
-                    auraRef = fu.auras["清空地窖"],
+                    auraRef = fu.Auras["清空地窖"],
                     showKey = "remaining",
                 },
             },
@@ -80,37 +80,37 @@ function fu.updateSpecInfo()
             auras = {
                 ["法力茶层数"] = {
                     index = 24,
-                    auraRef = fu.auras["法力茶"],
+                    auraRef = fu.Auras["法力茶"],
                     showKey = "count",
                 },
                 ["生生不息1"] = {
                     index = 25,
-                    auraRef = fu.auras["生生不息1"],
+                    auraRef = fu.Auras["生生不息1"],
                     showKey = "remaining",
                 },
                 ["生生不息2"] = {
                     index = 26,
-                    auraRef = fu.auras["生生不息2"],
+                    auraRef = fu.Auras["生生不息2"],
                     showKey = "remaining",
                 },
                 ["神龙之赐层数"] = {
                     index = 27,
-                    auraRef = fu.auras["神龙之赐"],
+                    auraRef = fu.Auras["神龙之赐"],
                     showKey = "count",
                 },
                 ["灵泉"] = {
                     index = 28,
-                    auraRef = fu.auras["灵泉"],
+                    auraRef = fu.Auras["灵泉"],
                     showKey = "remaining",
                 },
                 ["玄牛之力"] = {
                     index = 29,
-                    auraRef = fu.auras["玄牛之力"],
+                    auraRef = fu.Auras["玄牛之力"],
                     showKey = "remaining",
                 },
                 ["青龙之心"] = {
                     index = 30,
-                    auraRef = fu.auras["青龙之心"],
+                    auraRef = fu.Auras["青龙之心"],
                     showKey = "remaining",
                 },
             },

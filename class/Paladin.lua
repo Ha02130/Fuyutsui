@@ -27,22 +27,22 @@ function fu.updateSpecInfo()
             auras = {
                 ["神圣意志"] = {
                     index = 25,
-                    auraRef = fu.auras["神圣意志"],
+                    auraRef = fu.Auras["神圣意志"],
                     showKey = "remaining",
                 },
                 ["圣光灌注"] = {
                     index = 26,
-                    auraRef = fu.auras["圣光灌注"],
+                    auraRef = fu.Auras["圣光灌注"],
                     showKey = "remaining",
                 },
                 ["灌注层数"] = {
                     index = 27,
-                    auraRef = fu.auras["灌注层数"],
+                    auraRef = fu.Auras["灌注层数"],
                     showKey = "count",
                 },
                 ["神性层数"] = {
                     index = 28,
-                    auraRef = fu.auras["神性之手"],
+                    auraRef = fu.Auras["神性之手"],
                     showKey = "count",
                 },
             },
@@ -76,47 +76,47 @@ function fu.updateSpecInfo()
             auras = {
                 ["神圣意志"] = {
                     index = 22,
-                    auraRef = fu.auras["神圣意志"],
+                    auraRef = fu.Auras["神圣意志"],
                     showKey = "remaining",
                 },
                 ["神圣壁垒"] = {
                     index = 23,
-                    auraRef = fu.auras["神圣壁垒"],
+                    auraRef = fu.Auras["神圣壁垒"],
                     showKey = "remaining",
                 },
                 ["圣洁武器"] = {
                     index = 24,
-                    auraRef = fu.auras["圣洁武器"],
+                    auraRef = fu.Auras["圣洁武器"],
                     showKey = "remaining",
                 },
                 ["闪耀之光"] = {
                     index = 25,
-                    auraRef = fu.auras["闪耀之光"],
+                    auraRef = fu.Auras["闪耀之光"],
                     showKey = "remaining",
                 },
                 ["闪光层数"] = {
                     index = 26,
-                    auraRef = fu.auras["闪耀之光"],
+                    auraRef = fu.Auras["闪耀之光"],
                     showKey = "count",
                 },
                 ["神圣军备"] = {
                     index = 27,
-                    auraRef = fu.updateAuras.byIcon[432459],
+                    auraRef = fu.Auras["神圣军备"],
                     showKey = "isIcon",
                 },
                 ["奉献"] = {
                     index = 28,
-                    auraRef = fu.auras["奉献"],
+                    auraRef = fu.Auras["奉献"],
                     showKey = "remaining",
                 },
                 ["复仇之怒"] = {
                     index = 29,
-                    auraRef = fu.auras["复仇之怒"],
+                    auraRef = fu.Auras["复仇之怒"],
                     showKey = "remaining",
                 },
                 ["圣光之锤"] = {
                     index = 30,
-                    auraRef = fu.auras["圣光之锤"],
+                    auraRef = fu.Auras["圣光之锤"],
                     showKey = "remaining",
                 },
             },
@@ -141,7 +141,7 @@ function fu.updateSpecInfo()
     elseif specIndex == 3 then
         fu.HarmfulSpellId = 20271
         fu.powerType = "MANA"
-        fu.auras["复仇之怒"].duration = 24
+        fu.Auras["复仇之怒"].duration = 24
         fu.blocks = {
             ["神圣能量"] = 21,
             ["爆发开关"] = 26,
@@ -150,23 +150,23 @@ function fu.updateSpecInfo()
             auras = {
                 ["神圣意志"] = {
                     index = 22,
-                    auraRef = fu.auras["神圣意志"],
+                    auraRef = fu.Auras["神圣意志"],
                     showKey = "remaining",
                 },
                 ["复仇之怒"] = {
                     index = 23,
-                    auraRef = fu.auras["复仇之怒"],
+                    auraRef = fu.Auras["复仇之怒"],
                     showKey = "remaining",
                 },
                 ["处决宣判"] = {
                     index = 24,
-                    auraRef = fu.auras["处决宣判"],
+                    auraRef = fu.Auras["处决宣判"],
                     showKey = "remaining",
                 },
                 -- 427441
                 ["圣光之锤"] = {
                     index = 25,
-                    auraRef = fu.auras["圣光之锤"],
+                    auraRef = fu.Auras["圣光之锤"],
                     showKey = "remaining",
                 },
             },

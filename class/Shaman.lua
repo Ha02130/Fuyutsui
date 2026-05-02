@@ -77,32 +77,32 @@ function fu.updateSpecInfo()
             auras = {
                 ["飞旋之土"] = {
                     index = 24,
-                    auraRef = fu.auras["飞旋之土"],
+                    auraRef = fu.Auras["飞旋之土"],
                     showKey = "remaining",
                 },
                 ["潮汐奔涌"] = {
                     index = 25,
-                    auraRef = fu.auras["潮汐奔涌"],
+                    auraRef = fu.Auras["潮汐奔涌"],
                     showKey = "count",
                 },
                 ["风暴涌流图腾"] = {
                     index = 26,
-                    auraRef = fu.auras["风暴涌流图腾"],
+                    auraRef = fu.Auras["风暴涌流图腾"],
                     showKey = "count",
                 },
                 ["风暴涌流图腾层数"] = {
                     index = 27,
-                    auraRef = fu.auras["风暴涌流图腾"],
+                    auraRef = fu.Auras["风暴涌流图腾"],
                     showKey = "count",
                 },
                 ["生命释放"] = {
                     index = 28,
-                    auraRef = fu.auras["生命释放"],
+                    auraRef = fu.Auras["生命释放"],
                     showKey = "remaining",
                 },
                 ["升腾"] = {
                     index = 29,
-                    auraRef = fu.auras["升腾"],
+                    auraRef = fu.Auras["升腾"],
                     showKey = "remaining",
                 },
             },

@@ -1,19 +1,7 @@
 local addon, fu = ...
-local classId = fu.classId
+local classId, e = fu.classId, fu.e
 local addAuras, updateAuras, removeAuras = {}, {}, {} -- 添加、更新、移除光环
 local creat = fu.updateOrCreatTextureByIndex
-
-fu.Auras = {}
-local e = {
-    ["法术冷却"] = "SPELL_UPDATE_COOLDOWN", -- 冷却事件
-    ["施法成功"] = "UNIT_SPELLCAST_SUCCEEDED", -- 成功事件
-    ["图标改变"] = "SPELL_UPDATE_ICON", -- ICON事件
-    ["法术覆盖"] = "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED", -- 法术临时覆盖事件
-    ["图标发光显示"] = "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW", -- 图标发光显示
-    ["图标发光隐藏"] = "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE", -- 图标发光隐藏
-    ["屏幕提示显示"] = "SPELL_ACTIVATION_OVERLAY_SHOW", -- 屏幕提示显示
-    ["屏幕提示隐藏"] = "SPELL_ACTIVATION_OVERLAY_HIDE", -- 屏幕提示隐藏
-}
 
 -- 光环列表
 local auras = {
@@ -154,6 +142,25 @@ local auras = {
             },
             updateAuras = nil,
             removeAuras = nil,
+        },
+        ["神圣军备"] = {
+            remaining = 0,
+            duration = 0,
+            expirationTime = nil,
+            isIcon = 1,
+            addAuras = {
+                [432459] = {
+                    event = e["图标改变"],
+                    overrideSpellID = 432472,
+                },
+            },
+            updateAuras = nil,
+            removeAuras = {
+                [432459] = {
+                    event = e["图标改变"],
+                    overrideSpellID = 432472,
+                },
+            },
         },
     },
     -- 猎人
@@ -513,11 +520,11 @@ local auras = {
             remaining = 0,
             duration = 0,
             expirationTime = nil,
+            isIcon = 1,
             addAuras = {
                 [116] = { -- 寒冰箭
                     event = e["图标改变"],
                     overrideSpellID = 199786,
-                    isIcon = 1,
                 },
             },
             updateAuras = nil,
@@ -525,7 +532,6 @@ local auras = {
                 [116] = { -- 寒冰箭
                     event = e["图标改变"],
                     overrideSpellID = 199786,
-                    isIcon = 1,
                 },
             },
         },
@@ -743,7 +749,7 @@ local auras = {
 
     },
 }
-
+fu.Auras = {}
 do
     fu.Auras = auras[classId] or {}
     local function indexAura(target, auraName, auraData)
@@ -801,6 +807,30 @@ local function applyAuraMapForSpellEvent(auraMap, castBarID)
     end
 end
 
+---@param auraMap table<string, table>|nil 光环名 -> info
+---@param castBarID any|nil 施法成功时传入读条 ID；冷却类调用传 nil，不按读条过滤
+local function updateAuraMapForSpellEvent(auraMap, castBarID)
+    if not auraMap then
+        return
+    end
+    local now = GetTime()
+    for auraName, info in pairs(auraMap) do
+        local aura = fu.Auras[auraName]
+        if aura and ((not info.castBar) or castBarID) then
+            if aura.count and info.step then
+                if info.step > 0 then
+                    aura.expirationTime = now + aura.duration
+                    aura.count = math.min(aura.countMax, aura.count + info.step)
+                else
+                    aura.count = math.max(aura.countMin, aura.count + info.step)
+                end
+            elseif aura.duration then
+                aura.expirationTime = now + aura.duration
+            end
+        end
+    end
+end
+
 ---@param removeMap table<string, table>|nil 光环名 -> info
 ---@param resetCount boolean|nil 为 true 时重置层数（冷却/施法成功移除）；屏幕提示类仅清时间传 false
 local function clearAurasFromRemoveMap(removeMap, resetCount)
@@ -826,7 +856,7 @@ local function updateAuraBySpellCooldown(spellID)
     local updateBySpell = updateAuras[ev]
     local removeBySpell = removeAuras[ev]
     applyAuraMapForSpellEvent(addBySpell and addBySpell[spellID], nil)
-    applyAuraMapForSpellEvent(updateBySpell and updateBySpell[spellID], nil)
+    updateAuraMapForSpellEvent(updateBySpell and updateBySpell[spellID], nil)
     clearAurasFromRemoveMap(removeBySpell and removeBySpell[spellID], true)
 end
 
@@ -839,7 +869,7 @@ local function updateAuraBySuccess(spellID, castBarID)
     local updateBySpell = updateAuras[ev]
     local removeBySpell = removeAuras[ev]
     applyAuraMapForSpellEvent(addBySpell and addBySpell[spellID], castBarID)
-    applyAuraMapForSpellEvent(updateBySpell and updateBySpell[spellID], castBarID)
+    updateAuraMapForSpellEvent(updateBySpell and updateBySpell[spellID], castBarID)
     clearAurasFromRemoveMap(removeBySpell and removeBySpell[spellID], true)
 end
 
@@ -854,11 +884,11 @@ local function updateAuraByIconMap(map, spellID)
         if overrideSpellID and info.overrideSpellID and overrideSpellID == info.overrideSpellID then
             hasOverride = true
         end
-        if info.isIcon then
+        if aura.isIcon then
             if hasOverride then
-                info.isIcon = 2
+                aura.isIcon = 2
             else
-                info.isIcon = 1
+                aura.isIcon = 1
             end
         end
         if aura then
@@ -933,7 +963,7 @@ local function updateAuraByActivationOverlayShow(spellId)
     local addBySpell = addAuras[e["屏幕提示显示"]]
     local updateBySpell = updateAuras[e["屏幕提示显示"]]
     applyAuraMapForSpellEvent(addBySpell and addBySpell[spellId], nil)
-    applyAuraMapForSpellEvent(updateBySpell and updateBySpell[spellId], nil)
+    updateAuraMapForSpellEvent(updateBySpell and updateBySpell[spellId], nil)
 end
 
 ---@param spellId number 光环ID, 屏幕提示
