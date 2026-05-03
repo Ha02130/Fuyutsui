@@ -1,5 +1,11 @@
 local _, fu = ...
 
+local className, classFilename, classId = UnitClass("player")
+local specIndex = C_SpecializationInfo.GetSpecialization()
+print("职业:", className, "职业文件:", classFilename, "职业ID:", classId, "专精索引:", specIndex)
+fu.className, fu.classFilename, fu.classId = className, classFilename, classId
+fu.specIndex = specIndex
+
 -- 游戏内宏命令
 -- /fu 命令系统
 -- /fu cd       — 爆发 开 / 关 切换
@@ -13,6 +19,7 @@ local _, fu = ...
 -- /fu dpsmode  — DPS 模式 开 / 关 切换
 -- /fu dpsmode manual     — 输出模式 切换到 手动编写逻辑
 -- /fu dpsmode assistant  — 输出模式 切换到 官方一键辅助
+
 FuyutsuiDB = {
     aoeMode = 0,
     cooldowns = 0,

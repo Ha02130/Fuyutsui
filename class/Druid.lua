@@ -55,22 +55,22 @@ function fu.updateSpecInfo()
             auras = {
                 ["塞纳留斯的梦境"] = {
                     index = 24,
-                    auraRef = fu.auras["塞纳留斯的梦境"],
+                    auraRef = fu.Auras["塞纳留斯的梦境"],
                     showKey = "remaining",
                 },
                 ["塞纳留斯的梦境层数"] = {
                     index = 25,
-                    auraRef = fu.auras["塞纳留斯的梦境"],
+                    auraRef = fu.Auras["塞纳留斯的梦境"],
                     showKey = "count",
                 },
                 ["铁鬃"] = {
                     index = 26,
-                    auraRef = fu.auras["铁鬃"],
+                    auraRef = fu.Auras["铁鬃"],
                     showKey = "remaining",
                 },
                 ["狂暴回复"] = {
                     index = 27,
-                    auraRef = fu.auras["狂暴回复"],
+                    auraRef = fu.Auras["狂暴回复"],
                     showKey = "remaining",
                 },
             },
@@ -89,12 +89,12 @@ function fu.updateSpecInfo()
             auras = {
                 ["节能施法"] = {
                     index = 29,
-                    auraRef = fu.auras["节能施法"],
+                    auraRef = fu.Auras["节能施法"],
                     showKey = "remaining",
                 },
                 ["丛林之魂"] = {
                     index = 30,
-                    auraRef = fu.auras["丛林之魂"],
+                    auraRef = fu.Auras["丛林之魂"],
                     showKey = "remaining",
                 },
             },

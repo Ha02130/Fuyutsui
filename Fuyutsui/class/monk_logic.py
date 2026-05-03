@@ -106,9 +106,9 @@ def run_monk_logic(state_dict, spec_name):
         爆炸酒桶 = spells.get("爆炸酒桶", 0)
         赤精之歌 = spells.get("赤精之歌", 0)
 
-        def _combat_logic():
-            current_step = None
-            action_hotkey = None
+        if 引导 > 0:
+            current_step = "在引导,不执行任何操作"
+        elif 战斗 and 1 <= 目标类型 <= 3:
             if 酒池 > 10 and 天神酒 == 0 and 天神充能 == 0:
                 current_step = "施放 天神酒"
                 action_hotkey = get_hotkey(0, "天神酒")
@@ -141,13 +141,6 @@ def run_monk_logic(state_dict, spec_name):
                 action_hotkey = get_hotkey(0, tup[1])
             else:
                 current_step = "战斗中-无匹配技能"
-
-            return current_step, action_hotkey
-
-        if 引导 > 0:
-            current_step = "在引导,不执行任何操作"
-        elif 战斗 and 1 <= 目标类型 <= 3:
-            current_step, action_hotkey = _combat_logic()
         else:
             current_step = "非战斗状态,不执行任何操作"
 
