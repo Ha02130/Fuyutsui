@@ -459,203 +459,6 @@ local function updatePlayerStagger()
     end
 end
 
----@param spellID number 光环ID,
--- 通过事件 "SPELL_UPDATE_COOLDOWN"获取光环,
--- 更新光环的结束时间, 并更新光环的层数
-local function updateAuraBySpellCooldown(spellID)
-    local updateAura = fu.updateAuras.bySpellCooldown[spellID]
-    if not updateAura then return end
-    for _, info in pairs(updateAura) do
-        local aura = fu.auras[info.name]
-        if not aura then return end
-        if aura.duration then
-            aura.expirationTime = GetTime() + aura.duration
-        end
-        if aura.count and info.step then
-            if info.step > 0 then
-                aura.expirationTime = GetTime() + aura.duration
-                aura.count = math.min(aura.countMax, aura.count + info.step)
-            else
-                aura.count = math.max(aura.countMin, aura.count + info.step)
-            end
-        end
-    end
-end
-
----@param baseSpellID number 基本法术ID
----@param overrideSpellID number 覆盖法术ID
--- 通过事件"COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED"更新光环, 并更新光环的结束时间
-local function updateAuraBySpellOverride(baseSpellID, overrideSpellID)
-    local spellInfo = fu.updateAuras.bySpellOverride[baseSpellID]
-    if not spellInfo then return end
-    for _, info in pairs(spellInfo) do
-        local aura = fu.auras[info.name]
-        if aura then
-            if overrideSpellID and aura.duration and overrideSpellID == info.overrideSpellID then
-                if aura.duration then
-                    aura.expirationTime = GetTime() + aura.duration
-                end
-            else
-                aura.expirationTime = nil
-            end
-        end
-    end
-end
-
-
-
----@param spellId number 光环ID, 屏幕提示
--- 通过事件"SPELL_ACTIVATION_OVERLAY_SHOW"更新光环, 并更新光环的结束时间
-local function updateAuraByActivationOverlayShow(spellId)
-
-end
-
----@param spellId number 光环ID, 屏幕提示
--- 通过事件"SPELL_ACTIVATION_OVERLAY_HIDE"更新光环, 并更新光环的结束时间
-local function updateAuraByActivationOverlayHide(spellId)
-    local updateAura = fu.updateAuras.byActivationOverlay[spellId]
-    if not updateAura then return end
-    local aura = fu.auras[updateAura.name]
-    if not aura then return end
-    aura.expirationTime = nil
-end
-
----@param spellID number 法术ID, 法术发光ID
--- SPELL_ACTIVATION_OVERLAY_GLOW_SHOW
--- SPELL_ACTIVATION_OVERLAY_GLOW_HIDE
--- 更新法术发光, 并更新光环的结束时间
-local function updateAuraByOverlayGlow(spellID)
-    local updateAura = fu.updateAuras.byOverlayGlow[spellID]
-    if not updateAura then return end
-    local aura = fu.auras[updateAura.name]
-    if not aura then return end
-    local isSpellOverlayed = C_SpellActivationOverlay.IsSpellOverlayed(spellID)
-    if isSpellOverlayed and aura.duration then
-        aura.expirationTime = GetTime() + aura.duration
-    else
-        aura.expirationTime = nil
-    end
-end
-
----@param spellID number 法术ID
----@param castBarID number 施法条ID
--- 通过事件"UNIT_SPELLCAST_SUCCEEDED"更新光环, 并更新光环的层数
-local function updateAuraBySuccess(spellID, castBarID)
-    local spellInfo = fu.updateAuras.bySuccess[spellID]
-    if not spellInfo then return end
-    for _, info in pairs(spellInfo) do
-        local aura = fu.auras[info.name]
-        local isCastBarValid = (not info.castBar) or (info.castBar and castBarID)
-
-        if aura and isCastBarValid then
-            if aura.count then
-                if info.step then
-                    if info.step > 0 then
-                        aura.count = math.min(aura.countMax, aura.count + info.step)
-                    else
-                        aura.count = math.max(aura.countMin, aura.count + info.step)
-                    end
-                else
-                    if aura.count ~= aura.countMin then
-                        aura.count = aura.countMin
-                    end
-                end
-            else
-                aura.expirationTime = nil
-            end
-        end
-    end
-end
-
----@param spellID number 法术ID
--- 通过事件"SPELL_UPDATE_ICON"更新光环, 并更新光环的层数
-local function updateAuraByIcon(spellID)
-    local spellInfo = fu.updateAuras.byIcon[spellID]
-    if not spellInfo then return end
-    local hasOverride = false
-    local overrideSpellID = GetOverrideSpell(spellID)
-    local aura = fu.auras[spellInfo.name]
-    if overrideSpellID == spellInfo.overrideSpellID then
-        hasOverride = true
-    end
-    if spellInfo.isIcon then
-        if hasOverride then
-            spellInfo.isIcon = 2
-        else
-            spellInfo.isIcon = 1
-        end
-    end
-    if aura then
-        if hasOverride and aura.duration then
-            aura.expirationTime = GetTime() + aura.duration
-        else
-            aura.expirationTime = nil
-        end
-    end
-end
-
-local function updateTeaCount(spellID)
-    if spellID ~= 115294 then return end
-    local aura = fu.auras["法力茶"]
-    if aura and aura.count then
-        if state.channeling then
-            aura.count = math.max(0, aura.count - 1)
-        end
-    end
-end
-
---[[local function updateTeaCount2(spellID)
-    if spellID ~= 115294 then return end
-    local aura = fu.auras["法力茶"]
-    if aura and aura.count then
-        aura.count = math.max(0, aura.count - 1)
-    end
-end]]
-
--- 通过每帧更新光环
-local function updateAura()
-    local currentTime = GetTime()
-    for name, info in pairs(fu.auras) do
-        local expTime = info.expirationTime
-        if expTime then
-            if info.count and info.count <= 0 then
-                expTime = nil
-            end
-            if expTime then
-                local remaining = expTime - currentTime
-                if remaining > 0 then
-                    info.remaining = remaining
-                else
-                    info.expirationTime = nil
-                    info.remaining = 0
-                    if info.count then info.count = 0 end
-                end
-            else
-                info.expirationTime = nil
-                info.remaining = 0
-                if info.count then info.count = 0 end
-            end
-        else
-            if info.remaining ~= 0 then info.remaining = 0 end
-            if info.count and info.count ~= info.countMin then info.count = info.countMin end
-        end
-    end
-end
-
-local function updateAuraBlocks()
-    if not fu.blocks or not fu.blocks.auras then return end
-    for name, info in pairs(fu.blocks.auras) do
-        local v = info.show
-        if info.auraRef and info.showKey then
-            v = info.auraRef[info.showKey]
-        end
-        if v then
-            creat(info.index, v / 255)
-        else
-            creat(info.index, 0)
-        end
-    end
-end
 
 local function updateRune()
     if blocks and blocks["符文"] then
@@ -737,18 +540,6 @@ local function updateShapeshiftForm()
     state.shapeshiftFormID = GetShapeshiftFormID()
     if blocks and blocks["姿态"] then
         creat(blocks["姿态"], state.shapeshiftFormID and state.shapeshiftFormID / 255 or 0)
-    end
-end
-
--- 更新法术失败
-local function updateTeaCountFailed(spellID)
-    if spellID ~= 115294 then return end
-    local isUsable = C_Spell.IsSpellUsable(spellID)
-    if not isUsable then
-        local aura = fu.auras["法力茶"]
-        if aura and aura.count then
-            aura.count = 0
-        end
     end
 end
 
@@ -1444,7 +1235,6 @@ local updateLesserGhoul = false
 frame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
 function frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID, castBarID)
     if not isSec(spellID) then
-        updateAuraBySuccess(spellID, castBarID)
         updateFailedSpellBySuccess(spellID)
         -- printSuccSpell(spellID)
         -- print(spellID)
@@ -1467,7 +1257,6 @@ end
 frame:RegisterUnitEvent("UNIT_SPELLCAST_FAILED", "player")
 function frame:UNIT_SPELLCAST_FAILED(unitTarget, castGUID, spellID, castBarID)
     if not isSec(spellID) then
-        updateTeaCountFailed(spellID)
         updateSpellFailed(spellID)
     end
 end
@@ -1542,51 +1331,16 @@ for i = 1, NUM_CHAT_WINDOWS do
     end
 end
 
-frame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW") -- 法术图标发光显示
-frame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE") -- 法术图标发光隐藏
-function frame:SPELL_ACTIVATION_OVERLAY_GLOW_SHOW(spellID)
-    updateAuraByOverlayGlow(spellID)
-end
 
-function frame:SPELL_ACTIVATION_OVERLAY_GLOW_HIDE(spellID)
-    updateAuraByOverlayGlow(spellID)
-end
-
-frame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_SHOW") -- 法术警报显示
-frame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_HIDE") -- 法术警报隐藏
-function frame:SPELL_ACTIVATION_OVERLAY_SHOW(spellId)
-    -- updateAuraByActivationOverlayShow(spellId)
-end
-
-function frame:SPELL_ACTIVATION_OVERLAY_HIDE(spellId)
-    updateAuraByActivationOverlayHide(spellId)
-end
-
-frame:RegisterEvent("COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED") -- 法术覆盖更新
-function frame:COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED(baseSpellID, overrideSpellID)
-    updateAuraBySpellOverride(baseSpellID, overrideSpellID)
-end
-
-frame:RegisterEvent("SPELL_UPDATE_ICON") -- 法术图标更新
-function frame:SPELL_UPDATE_ICON(spellID)
-    updateAuraByIcon(spellID)
-end
 
 frame:RegisterEvent("SPELL_UPDATE_USES") -- 法术充能冷却更新
 function frame:SPELL_UPDATE_USES(spellID, baseSpellID)
-    updateTeaCount(spellID)
     fu.updateUsesSpell = spellID
     fu.updateUsesBaseSpell = baseSpellID
     C_Timer.After(0.3, function()
         fu.updateUsesSpell = nil
         fu.updateUsesBaseSpell = nil
     end)
-end
-
-frame:RegisterEvent("SPELL_UPDATE_COOLDOWN") -- 法术冷却更新
-function frame:SPELL_UPDATE_COOLDOWN(spellID)
-    -- print(spellID, C_Spell.GetSpellName(spellID))
-    updateAuraBySpellCooldown(spellID)
 end
 
 frame:RegisterEvent("GROUP_ROSTER_UPDATE")
@@ -1611,10 +1365,6 @@ function frame:UNIT_DIED(unitGUID)
         updateUnitDeath(unitGUID)
     end
 end
-
---[[frame:RegisterEvent("UNIT_IN_RANGE_UPDATE")
-function frame:UNIT_IN_RANGE_UPDATE(unit, inRange)
-end]]
 
 frame:RegisterEvent("SPELL_RANGE_CHECK_UPDATE")
 function frame:SPELL_RANGE_CHECK_UPDATE()
@@ -1721,8 +1471,6 @@ frame:SetScript("OnUpdate", function(_, elapsed)
         OnUpdateUnitAura()
         updatePlayerAssistant()
         updateRune()
-        updateAura()
-        updateAuraBlocks()
         updateTargetRangeBlock()
         updateEnemyCount()
         testcurve()

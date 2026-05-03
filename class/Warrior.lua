@@ -58,7 +58,7 @@ function fu.updateSpecInfo()
             auras = {
                 ["盾牌格挡"] = {
                     index = 25,
-                    auraRef = fu.auras["盾牌格挡"],
+                    auraRef = fu.Auras["盾牌格挡"],
                     showKey = "remaining",
                 },
             },

@@ -1,4 +1,4 @@
-local _, fu = ...
+local addon, fu = ...
 if fu.classId ~= 5 then return end
 
 fu.HarmfulSpellId, fu.HelpfulSpellId = 585, 2061
@@ -34,37 +34,37 @@ function fu.updateSpecInfo()
             auras = {
                 ["虚空之盾"] = {
                     index = 24,
-                    auraRef = fu.auras["虚空之盾"],
+                    auraRef = fu.Auras["虚空之盾"],
                     showKey = "remaining",
                 },
                 ["圣光涌动"] = {
                     index = 25,
-                    auraRef = fu.auras["圣光涌动"],
+                    auraRef = fu.Auras["圣光涌动"],
                     showKey = "remaining",
                 },
                 ["涌动层数"] = {
                     index = 26,
-                    auraRef = fu.auras["圣光涌动"],
+                    auraRef = fu.Auras["圣光涌动"],
                     showKey = "count",
                 },
                 ["熵能裂隙"] = {
                     index = 27,
-                    auraRef = fu.auras["熵能裂隙"],
+                    auraRef = fu.Auras["熵能裂隙"],
                     showKey = "remaining",
                 },
                 ["暗影愈合"] = {
                     index = 28,
-                    auraRef = fu.auras["暗影愈合"],
+                    auraRef = fu.Auras["暗影愈合"],
                     showKey = "remaining",
                 },
                 ["暗影层数"] = {
                     index = 29,
-                    auraRef = fu.auras["暗影愈合"],
+                    auraRef = fu.Auras["暗影愈合"],
                     showKey = "count",
                 },
                 ["福音层数"] = {
                     index = 30,
-                    auraRef = fu.auras["福音"],
+                    auraRef = fu.Auras["福音"],
                     showKey = "count",
                 },
             },
@@ -98,22 +98,22 @@ function fu.updateSpecInfo()
             auras = {
                 ["织光者"] = {
                     index = 25,
-                    auraRef = fu.auras["织光者"],
+                    auraRef = fu.Auras["织光者"],
                     showKey = "remaining",
                 },
                 ["织光者层数"] = {
                     index = 26,
-                    auraRef = fu.auras["织光者"],
+                    auraRef = fu.Auras["织光者"],
                     showKey = "count",
                 },
                 ["圣光涌动"] = {
                     index = 27,
-                    auraRef = fu.auras["圣光涌动"],
+                    auraRef = fu.Auras["圣光涌动"],
                     showKey = "remaining",
                 },
                 ["祈福"] = {
                     index = 28,
-                    auraRef = fu.auras["祈福"],
+                    auraRef = fu.Auras["祈福"],
                     showKey = "remaining",
                 },
             },

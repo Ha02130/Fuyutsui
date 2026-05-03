@@ -28,7 +28,7 @@ function fu.updateSpecInfo()
             auras = {
                 ["热能真空"] = {
                     index = 31,
-                    auraRef = fu.auras["热能真空"],
+                    auraRef = fu.Auras["热能真空"],
                     showKey = "remaining",
                 },
                 ["冰川尖刺！"] = {
@@ -39,22 +39,22 @@ function fu.updateSpecInfo()
                 },
                 ["冰冷智慧"] = {
                     index = 33,
-                    auraRef = fu.auras["冰冷智慧"],
+                    auraRef = fu.Auras["冰冷智慧"],
                     showKey = "remaining",
                 },
                 ["冰冻之雨"] = {
                     index = 34,
-                    auraRef = fu.auras["冰冻之雨"],
+                    auraRef = fu.Auras["冰冻之雨"],
                     showKey = "remaining",
                 },
                 ["寒冰指"] = {
                     index = 35,
-                    auraRef = fu.auras["寒冰指"],
+                    auraRef = fu.Auras["寒冰指"],
                     showKey = "remaining",
                 },
                 ["寒冰指层数"] = {
                     index = 36,
-                    auraRef = fu.auras["寒冰指"],
+                    auraRef = fu.Auras["寒冰指"],
                     showKey = "count",
                 },
             },
